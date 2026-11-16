@@ -50,8 +50,8 @@ html
     </head>
     <body>
         <center>
-            <h1>Gogulasharvathan M</h1>
-            <h1>(26017320)</h1>
+            <h1>GOKULAN.S.S</h1>
+            <h1>(26018286)</h1>
         
         <form method="POST">
             {%csrf_token%}
