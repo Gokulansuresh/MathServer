@@ -42,11 +42,71 @@ Render the result to the HTML template.
 Publish the website in Localhost.
 
 ## PROGRAM:
+html
+```
+<html>
+    <head>
+        <title>Calculation1</title>
+    </head>
+    <body>
+        <center>
+            <h1>Gogulasharvathan M</h1>
+            <h1>(26017320)</h1>
+        
+        <form method="POST">
+            {%csrf_token%}
+            <label>Initial_Customer</label>
+            <input type="number" name="initial_Customer" value="{{ initial }}" required> <br><br>
+            <label>Present_Customer</label>
+            <input type="number" name="present_Customer" value="{{ present }}" required> <br><br>
+            <h2>Calculate Churn Rate</h2>
+            <input type="submit" value="Calculate" >
+            <input type="text" value="{% if result is not None %}{{ result }}%{% endif %}" readonly>
+            <input type="reset" value="Clear All">
+
+
+
+        </form> 
+        {% if result is not None %}
+            <h2>Churn Rate: {{ result }}%</h2>
+        {% endif %}
+        </center>
+    </body>
+</html>
+```
+python
+```
+from django.shortcuts import render
+
+def calculate_Churn(request):
+    result = None
+    initial = ""
+    present = ""
+    if request.method == "POST":
+        initial = request.POST.get("initial_Customer")
+        present = request.POST.get("present_Customer")
+        if initial and present and int(initial) != 0:
+            result = round(((int(initial) - int(present)) / int(initial)) * 100, 2)
+    return render(request, "goapp/math.html", {
+        "result": result,
+        "initial": initial,
+        "present": present
+    })
+
+    from django.contrib import admin
+from django.urls import path
+from goapp import views
+
+urlpatterns=[
+    path('admin/', admin.site.urls),
+    path('',views.calculate_Churn,name='calculate'),
+]
+```
 
 
 ## OUTPUT - SERVER SIDE:
 
-
+![alt text](image-1.png)
 ## OUTPUT - WEBPAGE:
 
 ![alt text](image.png)
